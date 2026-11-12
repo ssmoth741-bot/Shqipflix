@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="sq">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ShqipFlix — Filma dhe seriale</title>
+<meta name="description" content="ShqipFlix — platforma jote e filmave.">
+<style>
+:root{color-scheme:dark;--red:#e50914;--bg:#080808;--panel:#151515;--muted:#aaa}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font-family:Arial,Helvetica,sans-serif}
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 5%;position:sticky;top:0;background:#080808eF;z-index:2}
+.logo{font-size:27px;font-weight:900;letter-spacing:-1px;color:white}.logo span{color:var(--red)}
+nav a{color:#ddd;text-decoration:none;margin-left:20px;font-size:14px}
+.hero{padding:70px 5% 60px;background:linear-gradient(90deg,#000 0%,#000c 45%,#0002),radial-gradient(circle at 75% 20%,#5b1017,#160609 50%,#080808 80%);min-height:330px}
+.tag{color:#ff4b54;font-weight:bold;letter-spacing:3px;font-size:12px}.hero h1{font-size:clamp(36px,7vw,68px);margin:12px 0}.hero p{color:#ccc;max-width:520px;line-height:1.6}.btn{display:inline-block;background:var(--red);color:white;border:0;border-radius:5px;padding:12px 18px;font-weight:bold;text-decoration:none;margin-top:12px}
+main{padding:26px 5% 60px}.section-title{font-size:22px;margin:10px 0 20px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:16px}
+.card{background:var(--panel);border-radius:8px;overflow:hidden;transition:transform .2s}.card:hover{transform:translateY(-4px)}.poster{height:220px;background:linear-gradient(145deg,#292929,#101010);display:flex;align-items:center;justify-content:center;color:#555;font-size:46px;font-weight:900}.poster img{width:100%;height:100%;object-fit:cover}.info{padding:12px}.info h3{font-size:15px;margin:0 0 7px}.info p{font-size:12px;color:var(--muted);margin:0}
+.empty{border:1px dashed #333;padding:35px;text-align:center;border-radius:8px;color:#aaa}
+footer{text-align:center;padding:25px;color:#777;border-top:1px solid #222;font-size:12px}
+dialog{background:#161616;color:white;border:1px solid #333;border-radius:10px;max-width:850px;width:90%;padding:20px}dialog::backdrop{background:#000c}dialog video{width:100%;max-height:65vh;background:#000}dialog button{background:#333;color:white;border:0;padding:10px 14px;border-radius:5px;margin-top:10px}
+@media(max-width:550px){header{padding:16px 4%}.logo{font-size:22px}nav a{margin-left:10px}.hero{padding:55px 5%}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.poster{height:190px}}
+</style>
+</head>
+<body>
+<header><div class="logo">SHQIP<span>FLIX</span></div><nav><a href="#filmat">Filmat</a><a href="#rreth">Rreth</a></nav></header>
+<section class="hero"><div class="tag">PLATFORMA JOTE</div><h1>Filmat. Në një vend.</h1><p>Mirë se erdhe në ShqipFlix. Katalogu është bosh për momentin — filmat shtohen nga administratori.</p><a class="btn" href="#filmat">Shiko katalogun ↓</a></section>
+<main id="filmat"><h2 class="section-title">🎬 Filmat dhe serialet</h2><div id="catalog" class="grid"></div></main>
+<section id="rreth" style="padding:0 5% 45px;color:#aaa"><h2 style="color:white">Rreth ShqipFlix</h2><p>ShqipFlix është katalogu yt online i filmave.</p></section>
+<footer>© <span id="year"></span> ShqipFlix · Përmbajtja publikohet nga administratori</footer>
+<dialog id="player"><video controls playsinline></video><h3 id="playingTitle"></h3><button onclick="document.getElementById('player').close()">Mbyll</button></dialog>
+<script>
+document.getElementById('year').textContent=new Date().getFullYear();
+// ADMIN: Add your own authorized video entries here.
+// Use direct video URLs (.mp4/.webm) and poster image URLs.
+const movies = [
+  // Example: {title:"Filmi yt",year:"2026",poster:"poster.jpg",video:"https://example.com/video.mp4"}
+];
+const catalog=document.getElementById('catalog');
+if(!movies.length){catalog.innerHTML='<div class="empty" style="grid-column:1/-1">Katalogu është bosh 🎞️<br><small>Filmat do të shfaqen këtu kur administratori t’i shtojë.</small></div>'}
+movies.forEach(m=>{const card=document.createElement('article');card.className='card';card.innerHTML=`<div class="poster">${m.poster?`<img src="${m.poster}" alt="">`:'▶'}</div><div class="info"><h3>${m.title}</h3><p>${m.year||'Film'}</p></div>`;card.onclick=()=>{const d=document.getElementById('player');d.querySelector('video').src=m.video;document.getElementById('playingTitle').textContent=m.title;d.showModal()};catalog.appendChild(card)});
+</script>
+</body></html>
